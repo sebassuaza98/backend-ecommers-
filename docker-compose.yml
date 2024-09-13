@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  api_service:
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - springapimysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/intcomex    
+    depends_on:
+      - mysqldb
+    volumes:
+      - .m2:/root/.m2
+      
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3307:3306
+    networks:
+      - springapimysql-net  
+    environment:
+      MYSQL_DATABASE: intcomex
+      MYSQL_USER: luc
+      MYSQL_PASSWORD: herlubon14
+      MYSQL_ROOT_PASSWORD: Amila_Rpw
+networks:
+  springapimysql-net:
